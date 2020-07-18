@@ -30,10 +30,10 @@ public class LoanContract {
     private LocalDate dateLoanGiven;
 
     @Column(name = "amount_given")
-    private Long amountGiven;
+    private Double amountGiven;
 
     @Column(name = "interest_rate")
-    private Long interestRate;
+    private Double interestRate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_collector")

@@ -3,6 +3,8 @@ package br.edu.infnet.loanmanagersystem.model;
 import lombok.Data;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,14 +26,19 @@ public class Payment {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_client")
     private Client client;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "fk_loan_contract")
+    private LoanContract loanContract;
+    
+    @Enumerated(EnumType.STRING)
+    private PaymentType paymentType;
 
     private LocalDate paymentDate;
 
     private Integer paymentMonth;
 
-    private Integer capitalPaid;
-
-    private Integer interestPaid;
+    private Double amount;
 
     private String observations;
 

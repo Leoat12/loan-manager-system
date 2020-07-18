@@ -21,6 +21,6 @@ public class Client {
 
     private String address;
 
-    private Long balance;
+    private Double balance;
 
 }
