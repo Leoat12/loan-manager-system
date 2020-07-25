@@ -3,7 +3,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Hello World</title>
+    <title>Sistema de Pagamentos</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
           integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 </head>
@@ -33,11 +33,8 @@
                 <td>${contract.amountGiven}</td>
                 <td>${contract.interestRate}</td>
                 <td>
-                    <a href="<c:url value="/formedit/${contract.transactionId}"/>">
-                        <button class="btn btn-primary" type="button">Editar</button>
-                    </a>
-                    <a href="<c:url value="/delete/${contract.transactionId}"/>">
-                        <button class="btn btn-danger" type="button">Excluir</button>
+                    <a href="<c:url value="/pay-contract/${contract.transactionId}"/>">
+                        <button class="btn btn-primary" type="button">Pagar</button>
                     </a>
                 </td>
             </tr>

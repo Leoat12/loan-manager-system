@@ -21,7 +21,7 @@ public class LoanContractController {
 
     private final LoanContractService loanContractService;
     
-    private final CollectorService collesctorService;
+    private final CollectorService collectorService;
 
     @GetMapping
     public String loanContractList(Model model) {
@@ -38,7 +38,7 @@ public class LoanContractController {
     	List<Client> clients = clientService.findAll();
     	model.addAttribute("clients", clients);
     	
-    	List<Collector> collectors = collesctorService.findAll();
+    	List<Collector> collectors = collectorService.findAll();
     	model.addAttribute("collectors", collectors);
     	
     	return "loan-cad";

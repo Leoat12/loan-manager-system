@@ -1,11 +1,15 @@
 package br.edu.infnet.loanmanagersystem.service;
 
+import br.edu.infnet.loanmanagersystem.exception.LoanContractNotFoundException;
+import br.edu.infnet.loanmanagersystem.model.LoanContract;
 import br.edu.infnet.loanmanagersystem.model.Payment;
 import br.edu.infnet.loanmanagersystem.model.PaymentType;
+import br.edu.infnet.loanmanagersystem.repository.LoanContractRepository;
 import br.edu.infnet.loanmanagersystem.repository.PaymentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -13,10 +17,13 @@ import java.util.List;
 public class PaymentService {
 
 	private final PaymentRepository paymentRepository;
-	
+	private final LoanContractRepository loanContractRepository;
+
 	public Payment makePayment(Payment payment) {
 		
 		List<Payment> previousPayments = paymentRepository.findAllByLoanContract(payment.getLoanContract());
+		LoanContract loanContract = loanContractRepository.findById(payment.getLoanContract().getTransactionId())
+				.orElseThrow(LoanContractNotFoundException::new);
 		
 		Double amountPaid = 0.00;
 		
@@ -24,18 +31,14 @@ public class PaymentService {
 			amountPaid += pay.getAmount();
 		}
 		
-		Double due =  payment.getLoanContract().getAmountGiven() - amountPaid;
+		Double due =  loanContract.getAmountGiven() - amountPaid;
 				
-		Double interestValue = due * (payment.getLoanContract().getInterestRate() / 100);
-		System.out.println("due " + due);
-		System.out.println("interestValue " + interestValue);
-		System.out.println("amount " + payment.getAmount());
+		Double interestValue = due * (loanContract.getInterestRate() / 100);
 		if(payment.getAmount() < interestValue) {
-			throw new IllegalArgumentException("The minumum value for payment is the interest value of the total due");
+			throw new IllegalArgumentException("The minimum value for payment is the interest value of the total due");
 		}
 
 		if(Double.compare(payment.getAmount() , interestValue) == 0) {
-			System.out.println("interest");
 			payment.setPaymentType(PaymentType.INTEREST);
 		}
 		
@@ -47,7 +50,10 @@ public class PaymentService {
 		if(Double.compare(payment.getAmount() , due) == 0) {
 			payment.setPaymentType(PaymentType.TOTAL);
 		}
-			
+
+		payment.setPaymentDate(LocalDate.now());
+		payment.setPaymentMonth(payment.getPaymentDate().getMonthValue());
+
 		return paymentRepository.save(payment);
 	}
 	

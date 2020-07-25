@@ -2,6 +2,7 @@ package br.edu.infnet.loanmanagersystem.service;
 
 import br.edu.infnet.loanmanagersystem.exception.ClientNotFoundException;
 import br.edu.infnet.loanmanagersystem.exception.CollectorNotFoundException;
+import br.edu.infnet.loanmanagersystem.exception.LoanContractNotFoundException;
 import br.edu.infnet.loanmanagersystem.model.LoanContract;
 import br.edu.infnet.loanmanagersystem.repository.ClientRepository;
 import br.edu.infnet.loanmanagersystem.repository.CollectorRepository;
@@ -19,6 +20,11 @@ public class LoanContractService {
     private final LoanContractRepository loanContractRepository;
     private final ClientRepository clientRepository;
     private final CollectorRepository collectorRepository;
+
+    public LoanContract findById(Integer transactionId) {
+        return loanContractRepository.findById(transactionId)
+                .orElseThrow(LoanContractNotFoundException::new);
+    }
 
     public List<LoanContract> findAll() {
         return loanContractRepository.findAll();
