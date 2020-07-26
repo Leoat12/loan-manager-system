@@ -11,12 +11,12 @@
 <div class="container">
     <h1>Cadastro de Contratos de Empréstimo</h1>
 
-    <form>
+    <form action="<c:url value="/cadastro"/>" method="post">
         <div class="input-group mb-3">
-            <label class="input-group-text" for="client-select">Selecione o cliente</label>
-            <select class="custom-select" id="client-select">
-                <c:forEach var="client" items="${clients}">
-                    <option value="${client.id}">${client.name}</option>
+            <label class="input-group-text" for="client-select" >Selecione o cliente</label>
+            <select class="custom-select" id="client-select" name="client.id">
+                <c:forEach var="cli" items="${clients}">
+                    <option value="${cli.id}">${cli.name}</option>
                 </c:forEach>
             </select>
 
@@ -24,13 +24,22 @@
 
         <div class="input-group mb-3">
             <label class="input-group-text" for="collector-select">Selecione o coletor</label>
-            <select class="custom-select" id="collector-select">
-                <c:forEach var="collector" items="${collectors}">
-                    <option value="${collector.id}">${collector.name}</option>
+            <select class="custom-select" id="collector-select" name="collector.id">
+                <c:forEach var="clt" items="${collectors}">
+                    <option value="${clt.id}" name="collector">${clt.name}</option>
                 </c:forEach>
             </select>
         </div>
 
+        <div class="input-group mb-3">
+            <label class="input-group-text" for="amountGivenInput">Total do empréstimo</label>
+            <input class="form-control mr-3" required type="number" id="amountGivenInput" name="amountGiven"/>
+            
+            <label class="input-group-text" for="interestRateInput">Taxa de Juros</label>
+            <input class="form-control" required type="number" min="0" max="100" id="interestRateInput" name="interestRate"/>
+        </div>
+
+        <input type="submit" class="btn btn-primary" value="Cadastrar" />
     </form>
     
 

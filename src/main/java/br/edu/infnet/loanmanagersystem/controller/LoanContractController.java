@@ -1,5 +1,12 @@
 package br.edu.infnet.loanmanagersystem.controller;
 
+import java.util.List;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+
 import br.edu.infnet.loanmanagersystem.model.Client;
 import br.edu.infnet.loanmanagersystem.model.Collector;
 import br.edu.infnet.loanmanagersystem.model.LoanContract;
@@ -7,11 +14,6 @@ import br.edu.infnet.loanmanagersystem.service.ClientService;
 import br.edu.infnet.loanmanagersystem.service.CollectorService;
 import br.edu.infnet.loanmanagersystem.service.LoanContractService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-
-import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -39,9 +41,24 @@ public class LoanContractController {
     	model.addAttribute("clients", clients);
     	
     	List<Collector> collectors = collectorService.findAll();
-    	model.addAttribute("collectors", collectors);
+    	model.addAttribute("collectors", collectors);    	    
     	
     	return "loan-cad";
+    }
+    
+    @PostMapping("/cadastro")
+    public String cad(Model model, LoanContract loanContract) {
+    	    	
+    	
+    	loanContractService.registerLoanContract(
+    			loanContract.getClient().getId(),
+    			loanContract.getCollector().getId(), 
+    			loanContract.getAmountGiven(), 
+    			loanContract.getInterestRate());
+    	
+    	
+    	
+    	 return "redirect:/";
     }
 
 }
