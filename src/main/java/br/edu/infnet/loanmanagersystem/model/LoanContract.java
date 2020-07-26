@@ -25,7 +25,7 @@ import java.time.LocalDate;
 public class LoanContract {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer transactionId;
 
     @ManyToOne(fetch = FetchType.LAZY)
